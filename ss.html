@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>لیست پراکسی MTProto</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn&display=swap');
+    body {
+      font-family: 'Vazirmatn', sans-serif;
+      background: linear-gradient(to left, #e0eafc, #cfdef3);
+      margin: 0;
+      padding: 20px;
+      direction: rtl;
+      color: #333;
+    }
+    #header-link {
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #007bff;
+      cursor: pointer;
+      text-decoration: underline;
+      user-select: none;
+    }
+    #header-link:hover {
+      color: #0056b3;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #test-all-btn {
+      display: block;
+      margin: 0 auto 30px auto;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 16px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+      width: 200px;
+    }
+    #test-all-btn:hover {
+      background: #218838;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      padding: 20px;
+      transition: transform 0.2s ease;
+      position: relative;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card h3 {
+      margin-top: 0;
+    }
+    .info {
+      font-size: 14px;
+      margin: 4px 0;
+    }
+    .buttons {
+      margin-top: 12px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    button {
+      flex: 1 1 45%;
+      padding: 8px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #007bff;
+      color: white;
+      font-size: 14px;
+      transition: background 0.3s;
+      min-width: 100px;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    button.secondary {
+      background: #6c757d;
+    }
+    button.secondary:hover {
+      background: #565e64;
+    }
+    button.outline {
+      background: white;
+      color: #333;
+      border: 1px solid #ccc;
+    }
+    button.outline:hover {
+      background: #f1f1f1;
+    }
+    .test-result {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #007bff;
+    }
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 14px;
+      color: #555;
+    }
+    /* QR Code modal styles */
+    #qrModal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.6);
+    }
+    #qrModalContent {
+      background-color: #fefefe;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 12px;
+      width: 280px;
+      text-align: center;
+      position: relative;
+    }
+    #qrModalContent h2 {
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+    #closeQrBtn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 22px;
+      font-weight: bold;
+      color: #aaa;
+      cursor: pointer;
+    }
+    #closeQrBtn:hover {
+      color: #000;
+    }
+    /* Welcome popup styles */
+    #welcomePopup {
+      position: fixed;
+      z-index: 10000;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background: #d0e7ff; /* آبی روشن ملایم */
+      border-radius: 16px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+      padding: 30px 20px 20px 20px;
+      width: 320px;
+      text-align: center;
+      font-size: 16px;
+      color: #333;
+    }
+    #welcomePopup button {
+      margin-top: 20px;
+      background: #0088cc;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      font-size: 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    #welcomePopup button:hover {
+      background: #005f8a;
+    }
+    #welcomePopupClose {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #aaa;
+      cursor: pointer;
+      user-select: none;
+    }
+    #welcomePopupClose:hover {
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <div id="welcomePopup">
+    <span id="welcomePopupClose">&times;</span>
+    <p>خوش آمدید به سایت موب آموز!</p>
+    <button onclick="window.open('https://t.me/mobamoz_channel', '_blank')">کانال تلگرام موب آموز</button>
+  </div>
+
+  <div id="header-link" onclick="window.open('https://youtube.com/@mobamoz', '_blank')">
+    ساخته شده توسط mobamoz
+  </div>
+
+  <h1>لیست پراکسی‌های MTProto</h1>
+  <button id="test-all-btn">تست همه پراکسی‌ها</button>
+  <div class="container" id="proxy-list">
+    <p>در حال بارگذاری...</p>
+  </div>
+
+  <footer>ساخته شده توسط موب آموز</footer>
+
+  <!-- QR Modal -->
+  <div id="qrModal">
+    <div id="qrModalContent">
+      <span id="closeQrBtn">&times;</span>
+      <h2>بارکد پراکسی</h2>
+      <canvas id="qrcode"></canvas>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <script>
+    let proxies = [];
+    const container = document.getElementById("proxy-list");
+    const testAllBtn = document.getElementById("test-all-btn");
+    const qrModal = document.getElementById("qrModal");
+    const qrCodeCanvas = document.getElementById("qrcode");
+    const closeQrBtn = document.getElementById("closeQrBtn");
+
+    const welcomePopup = document.getElementById('welcomePopup');
+    const welcomePopupClose = document.getElementById('welcomePopupClose');
+
+    // بستن پاپ‌آپ خوش آمدگویی
+    welcomePopupClose.onclick = () => {
+      welcomePopup.style.display = 'none';
+    }
+
+    fetch("https://mtpro.xyz/api/?type=mtproto")
+      .then(res => res.json())
+      .then(data => {
+        proxies = data;
+        container.innerHTML = "";
+
+        if (data.length === 0) {
+          container.innerHTML = "<p>هیچ پراکسی‌ای پیدا نشد.</p>";
+          return;
+        }
+
+        proxies.forEach((proxy, index) => {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.id = `card-${index}`;
+
+          card.innerHTML = `
+            <h3>${proxy.country} - ${proxy.provider}</h3>
+            <div class="info">📡 هاست: ${proxy.host}</div>
+            <div class="info">🔌 پورت: ${proxy.port}</div>
+            <div class="info">🔑 سکرت: ${proxy.secret.slice(0, 8)}...</div>
+            <div class="info">📈 پینگ: ${proxy.ping} ms</div>
+            <div class="info">🔋 آپتایم: ${proxy.uptime}%</div>
+            <div class="buttons">
+              <button onclick="connect('${proxy.host}', '${proxy.port}', '${proxy.secret}')">اتصال</button>
+              <button class="secondary" onclick="copyProxy('${proxy.host}', '${proxy.port}', '${proxy.secret}')">کپی</button>
+              <button class="outline" onclick="testProxy(${proxy.ping}, ${proxy.uptime}, 'card-${index}')">تست</button>
+              <button class='outline' onclick="showQr('${proxy.host}', '${proxy.port}', '${proxy.secret}')">بارکد</button>
+            </div>
+            <div class="test-result" id="result-card-${index}"></div>
+          `;
+
+          container.appendChild(card);
+        });
+      })
+      .catch(err => {
+        container.innerHTML = `<p>خطا در دریافت اطلاعات</p>`;
+        console.error(err);
+      });
+
+    function copyProxy(host, port, secret) {
+      const link = `tg://proxy?server=${host}&port=${port}&secret=${secret}`;
+      navigator.clipboard.writeText(link);
+      alert("لینک کپی شد!");
+    }
+
+    function connect(host, port, secret) {
+      const link = `tg://proxy?server=${host}&port=${port}&secret=${secret}`;
+      window.open(link, "_blank");
+    }
+
+    function testProxy(ping, uptime, cardId) {
+      const resultDiv = document.getElementById(`result-${cardId}`);
+      resultDiv.innerText = `⏱ Ping: ${ping} ms | 🔋 Uptime: ${uptime}%`;
+    }
+
+    testAllBtn.addEventListener('click', () => {
+      proxies.forEach((proxy, index) => {
+        testProxy(proxy.ping, proxy.uptime, `card-${index}`);
+      });
+    });
+
+    // QR Code Modal handlers
+    function showQr(host, port, secret) {
+      const link = `tg://proxy?server=${host}&port=${port}&secret=${secret}`;
+      const ctx = qrCodeCanvas.getContext('2d');
+      ctx.clearRect(0, 0, qrCodeCanvas.width, qrCodeCanvas.height);
+      QRCode.toCanvas(qrCodeCanvas, link, { width: 200 }, function (error) {
+        if (error) console.error(error);
+      });
+      qrModal.style.display = "block";
+    }
+
+    closeQrBtn.onclick = function () {
+      qrModal.style.display = "none";
+      const ctx = qrCodeCanvas.getContext('2d');
+      ctx.clearRect(0, 0, qrCodeCanvas.width, qrCodeCanvas.height);
+    }
+
+    window.onclick = function(event) {
+      if (event.target == qrModal) {
+        qrModal.style.display = "none";
+        const ctx = qrCodeCanvas.getContext('2d');
+        ctx.clearRect(0, 0, qrCodeCanvas.width, qrCodeCanvas.height);
+      }
+    }
+  </script>
+</body>
+</html>
