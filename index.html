@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Proxy Finder - MobAmoz</title>
+    <title>Proxy Finder - mobamoz</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap');
@@ -203,7 +203,7 @@
         #welcomePopup .modal-content {
             animation: zoomIn var(--theme-transition-speed) ease;
             padding: 25px 20px;
-            max-width: 340px; /* MODIFIED: Made the popup even narrower */
+            max-width: 340px;
             width: 90%;
             box-shadow: 0 8px 32px 0 var(--glass-shadow), 0 0 25px -5px var(--primary-hover);
         }
@@ -351,6 +351,7 @@
                 const card = document.createElement("div");
                 card.className = "card glass-ui";
                 card.id = `card-${proxy.id}`;
+                // MODIFIED: Replaced all instances of proxy.server with proxy.host
                 card.innerHTML = `
                     <div class="card-header">
                         <div class="status-indicator" id="status-${proxy.id}"></div>
@@ -358,16 +359,16 @@
                         <h3>${proxy.country}</h3>
                     </div>
                     <div class="card-body">
-                        <div class="info"><i class="icon fas fa-server"></i><span class="info-label">سرور:</span><span class="info-value">${proxy.server}</span></div>
+                        <div class="info"><i class="icon fas fa-server"></i><span class="info-label">سرور:</span><span class="info-value">${proxy.host}</span></div>
                         <div class="info"><i class="icon fas fa-ethernet"></i><span class="info-label">پورت:</span><span class="info-value">${proxy.port}</span></div>
                         <div class="info"><i class="icon fas fa-key"></i><span class="info-label">سکرت:</span></div>
                         <div class="secret-wrapper"><code>${proxy.secret}</code></div>
                         <div class="info"><i class="icon fas fa-tachometer-alt"></i><span class="info-label">پینگ:</span><span class="info-value ping-result" id="ping-${proxy.id}">${proxy.ping ? proxy.ping + ' ms' : 'تست نشده'}</span></div>
                     </div>
                     <div class="buttons">
-                        <button class="action-btn btn-green" onclick="connect('${proxy.server}', '${proxy.port}', '${proxy.secret}')"><i class="fas fa-paper-plane"></i> اتصال</button>
-                        <button class="action-btn btn-blue" onclick="copyProxy('${proxy.server}', '${proxy.port}', '${proxy.secret}')"><i class="fas fa-copy"></i> کپی</button>
-                        <button class="action-btn btn-gray" onclick="showQrCode('${proxy.server}', '${proxy.port}', '${proxy.secret}')"><i class="fas fa-qrcode"></i> نمایش QR</button>
+                        <button class="action-btn btn-green" onclick="connect('${proxy.host}', '${proxy.port}', '${proxy.secret}')"><i class="fas fa-paper-plane"></i> اتصال</button>
+                        <button class="action-btn btn-blue" onclick="copyProxy('${proxy.host}', '${proxy.port}', '${proxy.secret}')"><i class="fas fa-copy"></i> کپی</button>
+                        <button class="action-btn btn-gray" onclick="showQrCode('${proxy.host}', '${proxy.port}', '${proxy.secret}')"><i class="fas fa-qrcode"></i> نمایش QR</button>
                     </div>
                 `;
                 container.appendChild(card);
